@@ -1,0 +1,247 @@
+
+var datamodel=  {
+                    category:{name:'category',title:'หมวดหมู่',
+                            field:[
+                                    {data:'category_name',type:'textfield',title:'หมวดหมู่'},
+                                    {data:'category_desc',type:'textfield',title:'ชื่อย่อ(eng)'}
+                                ],
+                            gridfield:[
+                                    {data:'category_id',type:'textfield',title:'ID'},
+                                    {data:'category_name',type:'textfield',title:'หมวดหมู่'},
+                                    {data:'category_desc',type:'textfield',title:'ชื่อย่อ(eng)'}
+                                ],
+                            child:['type','type_sub','model'//,'brand'
+                                ]   //ฟิลที่มาเรียกใช้ 
+                            },
+                    type:{name:'type',title:'ประเภท',
+                            field:[
+                                    {data:'category',type:'combo',title:'หมวดหมู่'},
+                                    {data:'type_name',type:'textfield',title:'ประเภท'}
+                                ],
+                            gridfield:[
+                                    {data:'type_id',type:'textfield',title:'ID'},
+                                    {data:'category_name',type:'combo',title:'หมวดหมู่'},
+                                    {data:'type_name',type:'combo',title:'ประเภท',ref:['category_id']}
+                                ],
+                            child:['model','type_sub'//,'brand',//,'category'
+                                ]
+                            },
+                    type_sub:{name:'type_sub',title:'ประเภทย่อย',
+                            field:[
+                                   {data:'category',type:'combo',title:'หมวดหมู่'},
+                                   {data:'type',type:'combo',title:'ประเภท',ref:['category_id']},
+                                   {data:'type_sub_name',type:'textfield',title:'ประเภทย่อย'}
+                                ],
+                            gridfield:[  
+                                  {data:'type_sub_id',type:'textfield',title:'ID'},
+                                  {data:'type_sub_name',type:'',title:'ประเภทย่อย'},                            
+                                  {data:'type_name',type:'',title:'ประเภท'},
+                                  {data:'category_name',type:'',title:'หมวดหมู่'}
+                                ],
+                            child:['model'//,'brand'//,'category'
+                                ]
+                            },
+                    brand:{name:'brand',title:'ยี่ห้อ',layout:'fit',
+                            field:[
+                                    {data:'brand_name',type:'textfield',title:'ยี่ห้อ'}
+                                ],
+                            gridfield:[
+                                    {data:'brand_id',type:'textfield',title:'ID'},
+                                    {data:'brand_name',type:'textfield',title:'ยี่ห้อ'}
+                                ],
+                            child:['model','model_sub'//,'type','type_sub'//,'category'
+                                ]
+                            },//brand_id-10
+                    model:{name:'model',title:'รุ่น',
+                            field:[
+                                   {data:'category',type:'combo',title:'หมวดหมู่'},
+                                   {data:'type',type:'combo',title:'ประเภท'/*,ref:['category_id']*/},
+                                   {data:'type_sub',type:'combo',title:'ประเภทย่อย'/*,ref:['type_id']*/},
+                                   {data:'brand',type:'combo',title:'ยี่ห้อ'},
+                                   {data:'model_name',type:'textfield',title:'ชื่อรุ่น'}
+                                ],
+                            gridfield:[
+                                   //{data:'model_id',type:'textfield',title:'ID'},   
+                                   {data:'model_name',type:'textfield',title:'รุ่น'},   
+                                   {data:'brand_name',type:'combo',title:'ยี่ห้อ'},
+                                   {data:'category_name',type:'combo',title:'หมวดหมู่'},
+                                   {data:'type_name',type:'combo',title:'ประเภท'},
+                                   {data:'type_sub_name',type:'combo',title:'ประเภทย่อย'}
+                                ],
+                            child:['brand','model_sub'//,'type','type_sub'//,'category'
+                                ]
+                            },
+                            /*ref แบบใหม่คือใช้อ้างอิง  ฟิลด์ที่จะให้อัพเดท ร่วมด้วย  กับ child ถ้ามี ค่าตรงกับ ref */
+                            /*รูปแบบ query    selec REF_ID , REF_NAME from FIELD_DATA where SELECT_FIELD_ID */
+                    model_sub:{name:'model_sub',title:'รุ่นย่อย',
+                            field:[
+                                   {data:'category',type:'combo',title:'หมวดหมู่'},
+                                   {data:'type',type:'combo',title:'ประเภท'/*,ref:['category']*/},
+                                   {data:'type_sub',type:'combo',title:'ประเภทย่อย'/*,ref:['type','category']*/},
+//                                   {data:'model',type:'combo',title:'รุ่น',ref:['brand']},
+                                   
+                                   {data:'brand',type:'combo',title:'ยี่ห้อ',ref:['model']},
+                                   {data:'model',type:'combo',title:'รุ่น'},                                 
+                                   //{data:'model',type:'combo',title:'รุ่น',ref:['brand']},
+                                   {data:'model_sub_name',type:'textfield',title:'รุ่นย่อย'}
+                                ],
+                            gridfield:[
+                                  // {data:'model_id',type:'textfield',title:'ID'},
+                                   {data:'model_sub_id',type:'num',title:'id'},
+                                   {data:'brand_name',type:'combo',title:'ยี่ห้อ'},
+                                   {data:'model_name',type:'textfield',title:'รุ่น'},
+                                   {data:'model_sub_name',type:'textfield',title:'รุ่นย่อย'},                              
+                                   {data:'category_name',type:'combo',title:'หมวดหมู่'},
+                                   {data:'type_name',type:'combo',title:'ประเภท'},
+                                   {data:'type_sub_name',type:'combo',title:'ประเภทย่อย'}
+                                ]//,
+                            //child:['model','brand','type','type_sub'//,'category'    //ไปอัพเดทฟิล ตามชื่อ 
+                                //]
+                            },
+                           
+                    color:{name:'color',title:'สี',
+                            field:[
+                                   {data:'color_name',type:'textfield',title:'สี'}
+                                ],
+                            gridfield:[
+                                   {data:'color_id',type:'textfield',title:'ID'},
+                                   {data:'color_name',type:'textfield',title:'สี'}
+                                ]
+                            },
+//Object {location_id: "2", location_name: "มิสทีน", location_type: "AUCTION", district_ID: "2", district_name: "กรุงเทพมหานคร"}
+                    location:{name:'location',title:'สถานที่',
+                            field:[
+                                   {data:'location',type:'combo',title:'ประเภท',enum:['WAREHOUSE','AUCTION']},
+                                   {data:'district',type:'combo',title:'จังหวัด'},
+                                   {data:'location_name',type:'textfield',title:'สถานที่'}
+                                ],                     
+                            gridfield:[
+                                   {data:'location_name',type:'textfield',title:'ชื่อ'},
+                                   {data:'location_type',type:'textfield',title:'ประเภท'},
+                                   {data:'district_name',type:'textfield',title:'จังหวัด'}
+                                ]   
+                            },              
+                    district:{name:'district',title:'จังหวัด',
+                            field:[
+                                   {data:'district_name',type:'textfield',title:'ชื่อ'},
+                                   {data:'LEVEL',type:'textfield',title:'ประเถท'},
+//                                   {data:'location_type',type:'combo',title:'ประเภท',store_name:'location_type'},
+//                                   {data:'location_name',type:'textfield',title:'สถานที่'}
+                                ],                     
+                            gridfield:[
+                                   {data:'district_id',type:'textfield',title:'ID'},
+                                   {data:'LEVEL',type:'textfield',title:'ประเภท'},
+                                   {data:'district_name',type:'textfield',title:'จังหวัด'}
+                                ]                       
+                            }, 
+                    warehouse:{name:'warehouse',title:'โกดัง',
+                            field:[
+                                {data:'location',type:'combo',title:'สถานที่'}
+                                ],
+                            
+                            
+                            gridfield:[
+                                {data:'warehouse_id',type:'textfield',title:'ID'},
+                                {data:'location_name',type:'textfield',title:'สถานที่'}
+                                ]
+                            },
+                    
+                    
+                    
+                    
+                    
+                    auction:{name:'auction',title:'รายละเอียดประมูล'},
+                    
+                    
+                    product:{name:'product',title:'รายละเอียดสินค้า',
+                            field:[
+                                
+                                    {data:'customer',type:'combo',title:'เจ้าของรถ'},
+
+//                                    {data:'category',type:'combo',title:'หมวดหมู่'},
+//                                    {data:'type',type:'combo',title:'ประเภท'},
+                                    
+                                    {data:'type_sub',type:'combo',title:'ประเภทย่อย'},   
+                                    
+                                    {data:'brand',type:'combo',title:'ยี่ห้อ',ref:['model']},
+                                    {data:'model',type:'combo',title:'รุ่น'},
+                                    {data:'model_sub',type:'combo',title:'รุ่นย่อย'}, 
+                                    {data:'color',type:'combo',title:'สี'},
+                                    
+                                    
+                                    {data:'product_reg',type:'textfield',title:'ทะเบียน'} ,
+                                    {data:'product_district',type:'textfield',title:'จังหวัด'} ,
+                                    
+                                    {data:'product_status',type:'combo',title:'สถานะ',enum:['ขาย','คืน','ไถ่ถอน','ลบ','สต๊อค']},
+                                    {data:'product_cc',type:'textfield',title:'CC'},
+                                    {data:'product_regyear',type:'textfield',title:'ปีที่จดทะเบียน'},
+                                    {data:'product_tax_expire',type:'date',title:'วันครบภาษี'},
+                                    {data:'product_chassis_no',type:'textfield',title:'เลขถัง'},
+                                    {data:'product_engine_no',type:'textfield',title:'เลขเครื่อง'},
+                                    {data:'product_contract_no',type:'textfield',title:'เลขสัญญา'},
+                                    {data:'product_km',type:'textfield',title:'เลขไมล์'},
+                                    {data:'product_gear',type:'textfield',title:'เกียร์'},
+                                    
+                                    {data:'product_warehouse',type:'textfield',title:'โกดังปัจจุบัน'},//แก้ไขได้ EDIT
+                                    {data:'product_warehouse_first',type:'disabled',title:'โกดังแรก',auto:'product_warehouse'},//ออโต้แค่กับปุ่มเพิ่ม
+                                    
+                                    {data:'product_parkzone',type:'textfield',title:'โซน'},
+                                    {data:'product_no_pad',type:'textfield',title:'-'},
+                                    {data:'product_count_auction',type:'textfield',title:'-'},
+                                    {data:'product_price_estimate',type:'textfield',title:'ราคาประเมิน'},
+                                    {data:'product_price_approve',type:'textfield',title:'ราคาอนุมัติ'},
+                                    {data:'product_file',type:'file',title:'ไฟล์'},
+                                    {data:'product_stockdate',type:'datetime',title:'เวลาเข้าระบบ'},
+//                                    {data:'product_editdate',type:'datetime',title:'เวลาปัจุบัน'}
+                                ],                    
+                            gridfield:[
+                                    {data:'product_id',type:'int',title:'ID'},
+                                    {data:'customer_name',type:'textfield',title:'ผู้ส่งรถ'},
+                                    {data:'product_name',type:'combo',title:'ยี่ห้อ-รุ่น'},
+                                   // {data:'category_name',type:'combo',title:'หมวดหมู่'},
+                                   // {data:'type_name',type:'combo',title:'ประเภท'},
+                                   
+                                    {data:'product_gear',type:'textfield',title:'เกียร์'},
+                                    {data:'product_regyear',type:'textfield',title:'ปี'},
+                                    
+                                    {data:'color_name',type:'combo',title:'สี'},
+                                    {data:'product_cc',type:'textfield',title:'cc.'},
+                                    {data:'product_km',type:'textfield',title:'เลขไมล์'},
+                                    {data:'product_reg',type:'textfield',title:'ทะเบียน'} ,
+                                    {data:'product_district',type:'textfield',title:'จังหวัด'} ,
+                                    {data:'type_sub_name',type:'combo',title:'ประเภทย่อย'} ,  
+                                   // {data:'model_name',type:'combo',title:'รุ่น'},
+                                    
+
+                                    {data:'product_status',type:'combo',title:'สถานะ',enum:['ขาย','คืน','ไถ่ถอน','ลบ','สต๊อค']},
+
+
+                                    {data:'product_tax_expire',type:'date',title:'วันครบภาษี'},
+                                    {data:'product_chassis_no',type:'textfield',title:'เลขถัง'},
+                                    {data:'product_engine_no',type:'textfield',title:'เลขเครื่อง'},
+                                   // {data:'product_contract_no',type:'textfield',title:'เลขสัญญา'},
+
+                                    
+                                    {data:'product_warehouse',type:'textfield',title:'โกดังปัจจุบัน'},
+                                   // {data:'product_warehouse_first',type:'disabled',title:'โกดังแรก'},
+                                    
+                                    {data:'product_parkzone',type:'textfield',title:'โซน'},
+                                   // {data:'product_no_pad',type:'textfield',title:'-'},
+                                    {data:'product_count_auction',type:'textfield',title:'เข้าประมูล'},
+                                    {data:'product_price_estimate',type:'textfield',title:'ราคาประเมิน'},
+                                    {data:'product_price_approve',type:'textfield',title:'ราคาอนุมัติ'},
+                                    {data:'product_stockdate',type:'datetime',title:'เวลาเข้าระบบ'},
+                                   // {data:'product_editdate',type:'datetime',title:'แก้ไขล่าสุด'},
+                                    //{data:'product_file',type:'file',title:'ไฟล์'}
+
+                                ]                       
+                            }
+
+               /* product_detail:{name:'product_detail',title:'รายละเอียดสินค้า2',
+                            field:[
+                                   {data:'product_detail_value',type:'textfield',title:'รายละเอียด'}],                     
+                            gridfield:[
+                                    {data:'product_detail_id',type:'int',title:'ID'},
+                                   {data:'product_detail_value',type:'textfield',title:'รายละเอียด'}]                       
+                  } */
+                };
